@@ -704,10 +704,14 @@ with st.sidebar:
 
         st.markdown("### 📅 Analysezeitraum")
 
-        date_range = st.date_input(
-            "Zeitraum auswählen",
-            value=None,  # wird später automatisch gesetzt
+        quick_range = st.selectbox(
+            "Schnellauswahl",
+            ["Komplett", "Letzte 30 Tage", "Letzte 90 Tage", "Dieses Jahr"],
+            index=0
         )
+        
+        date_range = st.date_input("Oder manuell wählen", value=None)
+        
 
         # Checkbox für erweiterte Daten
         show_tab4 = st.checkbox("Erweiterte Daten anzeigen", value=False)
