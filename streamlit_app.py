@@ -219,7 +219,11 @@ def detect_trend(df, player_name, n_trainings=10):
         or None if the player is not found or there is insufficient data or p-value is not below 0.05.
     """
     
-    df_player = df[df['user_name'] == player_name].copy()
+    df_player = df[
+        (df['user_name'] == player_name) &
+        (df['event_date_start'].dt.date >= start_date) &
+        (df['event_date_start'].dt.date <= end_date)
+    ]
 
     if len(df_player) < n_trainings:
         #print(f"Insufficient data for {player_name} to analyze the last {n_trainings} trainings.")
