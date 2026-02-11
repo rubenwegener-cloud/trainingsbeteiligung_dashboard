@@ -762,7 +762,28 @@ if uploaded_file is not None:
     raw_data = pd.read_csv(uploaded_file, sep=';')
 
     if check_search_params(raw_data):
-        data = filter_data(raw_data)        
+        data = filter_data(raw_data)
+
+        min_date = data['event_date_start'].min().date()
+        max_date = data['event_date_start'].max().date()
+        today = datetime.today().date()
+        
+        if quick_range == "Letzte 30 Tage":
+            start_date, end_date = today - pd.Timedelta(days=30), today
+        elif quick_range == "Letzte 90 Tage":
+            start_date, end_date = today - pd.Timedelta(days=90), today
+        elif quick_range == "Dieses Jahr":
+            start_date, end_date = datetime(today.year, 1, 1).date(), today
+        elif date_range and len(date_range) == 2:
+            start_date, end_date = date_range
+        else:
+            start_date, end_date = min_date, max_date
+
+        # GLOBAL FILTERN
+        data = data[
+            (data['event_date_start'].dt.date >= start_date) &
+            (data['event_date_start'].dt.date <= end_date)
+        ]
         
 
         if data is not None:
