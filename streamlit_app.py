@@ -702,6 +702,13 @@ with st.sidebar:
 
     with st.expander("Settings"):
 
+        st.markdown("### 📅 Analysezeitraum")
+
+        date_range = st.date_input(
+            "Zeitraum auswählen",
+            value=None,  # wird später automatisch gesetzt
+        )
+
         # Checkbox für erweiterte Daten
         show_tab4 = st.checkbox("Erweiterte Daten anzeigen", value=False)
 
